@@ -1,0 +1,19 @@
+inputs:
+  name:
+    description: 'Artifact name'
+    default: 'github-pages'
+  path:
+    description: "Path to put the static assets"
+    default: .
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/download-artifact@v3
+      with:
+        name: ${{ inputs.name }}
+        path: ${{ runner.temp }}/artifact.tar
+    - shell: bash
+      run: tar -xzvf "$RUNNER_TEMP/artifact.tar" -C "$INPUT_PATH"
+      env:
+        INPUT_PATH: ${{ inputs.path }}
