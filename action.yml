@@ -12,8 +12,8 @@ runs:
     - uses: actions/download-artifact@v3
       with:
         name: ${{ inputs.name }}
-        path: ${{ runner.temp }}/artifact.tar
+        path: ${{ runner.temp }}/artifact2.tar
     - shell: bash
-      run: tar -xzvf "$RUNNER_TEMP/artifact.tar" -C "$INPUT_PATH"
+      run: tar -xzvf "$RUNNER_TEMP/artifact2.tar" -C "$INPUT_PATH"
       env:
         INPUT_PATH: ${{ inputs.path }}
