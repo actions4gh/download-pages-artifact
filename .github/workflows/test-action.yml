@@ -1,10 +1,33 @@
-on: push
+name: Test action
+on:
+  push:
+    branches: "main"
+    paths-ignore:
+      - .gitignore
+      - README.md
+      - LICENSE
+      - .github/**
+      - "!.github/workflows/test-action.yml"
+  pull_request:
+    paths-ignore:
+      - .gitignore
+      - README.md
+      - LICENSE
+      - .github/**
+      - "!.github/workflows/test-action.yml"
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  job:
-    runs-on: ubuntu-latest
+  test-action:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
+      - uses: actions/checkout@v4
       - run: mkdir -p _site && echo $RANDOM >> _site/hello.txt
       - uses: actions/upload-pages-artifact@v2
-      - uses: actions/checkout@v4
       - uses: ./
-      - run: tree -a
+      - run: cat hello.txt

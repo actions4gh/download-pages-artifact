@@ -14,6 +14,6 @@ runs:
         name: ${{ inputs.name }}
         path: ${{ runner.temp }}/dlpages
     - shell: bash
-      run: tar -xzvf "$RUNNER_TEMP/dlpages/artifact.tar" -C "$INPUT_PATH"
+      run: tar -xvf "$RUNNER_TEMP/dlpages/artifact.tar" -C "$INPUT_PATH"
       env:
         INPUT_PATH: ${{ inputs.path }}
